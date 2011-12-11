@@ -24,6 +24,7 @@ vim是伟大的编辑器, 但要能用得称手, 打造属于自己的配置文�
 
 # 安装git-subtree
 
+	:::bash
 	mkdir $HOME/opensource
 	cd $HOME/opensource
 	git clone git://github.com/apenwarr/git-subtree.git
@@ -32,6 +33,7 @@ vim是伟大的编辑器, 但要能用得称手, 打造属于自己的配置文�
 
 # 使用git管理.vim目录
 
+	:::bash
 	cd $HOME
 	mkdir .vim
 	git init
@@ -44,6 +46,7 @@ vim是伟大的编辑器, 但要能用得称手, 打造属于自己的配置文�
 		
 之后就可以在vimrc中添加你自己的配置了。为使配置生效，执行如下命令
 
+	:::bash
 	cd $HOME
 	ln -s .vim/vimrc .vimrc
 
@@ -55,6 +58,7 @@ vim是伟大的编辑器, 但要能用得称手, 打造属于自己的配置文�
 
 首次安装
 
+	:::bash
 	cd .vim
 	mkdir bundle
 	git subtree add \
@@ -64,6 +68,7 @@ vim是伟大的编辑器, 但要能用得称手, 打造属于自己的配置文�
 
 更新
 
+	:::bash
 	git subtree pull \
 		--prefix=bundle/vim-pathogen \
 		--squash \
@@ -71,6 +76,7 @@ vim是伟大的编辑器, 但要能用得称手, 打造属于自己的配置文�
 
 配置`vim-pathogen`, 在`.vim/vimrc`中添加如下代码
 
+	:::VimL
 	runtime bundle/vim-pathogen/autoload/pathogen.vim
 	call pathogen#infect()
 
