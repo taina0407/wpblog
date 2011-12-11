@@ -7,7 +7,7 @@
 "=============================
 "EditType   : post
 "EditFormat : Markdown
-"TextAttach : vimpress_4ed265d1_mkd.txt
+"TextAttach : wpid134-vimpress_4ed265d1_mkd.txt
 "========== Content ==========
 本文介绍在vim里使用markdown撰写blog并直接发布到wordpress上。
 
@@ -16,19 +16,23 @@
 
 参考[前文][vim-conf-git]的方法, 安装[VimRepress][]和[vim-markdown][]。前者用来与wordpress进行交互，后者用来对markdown文档进行语法高亮。
 
+	:::bash
 	bash github-plugin-install.sh vim-scripts/VimRepress
 	bash github-plugin-install.sh hallison/vim-markdown
 
 `VimRepress`依赖`python-markdown`, 因此需要通过下面两种方式中的一种进行安装
 
+	:::bash
 	sudo aptitude install python-markdown
 
 或
 
+	:::bash
 	sudo pip install markdown2
 
 然后在.vim/vimrc中添加类似如下配置
 	
+	:::VimL
 	let VIMPRESS=[{'username':'user', 
 				   \'password':'pass', 
 				   \'blog_url':'http://your-first-blog.com/' 
@@ -49,7 +53,7 @@
 
 在本地预览
 
-	:BlogPreview local
+	:BlogPreview
 
 或在wordpress上保存为draft
 
@@ -81,15 +85,18 @@
 
 `:BlogPreview local`不知为什么，不能预览中文。因此我采用的是[hammer.vim][]来进行预览。首先安装vim plugin
 
+	:::bash
 	bash github-plugin-install.sh robgleeson/hammer.vim
 
 此插件依赖ruby, 并需要安装如下如下ruby gems
 
+	:::bash
 	sudo gem install github-markup
 	sudo gem install redcarpet
 
 然后在`.vim/vimrc`中进行配置：linux下使用`w3m`作为预览工具, 并定义预览快捷键`<leader>p`，一般是`\p`
 
+	:::VimL
 	if has('unix')
 		   let g:HammerBrowser = 'w3m'
 	end
