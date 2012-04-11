@@ -115,6 +115,7 @@ at stage
 	sudo su -
 	echo 192.168.0.51 cowapp >> /etc/hosts
 	exit
+	cd
 	bash it/gateway/reload-dnsmasq.sh
 	sudo virsh autostart cowapp
 	sudo virsh start cowapp --console
@@ -160,6 +161,34 @@ at himalayas@cowapp
 	ln -s .vim/vimrc .vimrc
 	source .bashrc
 
+# build padbox
+
+基本和cowapp一样, ip 192.168.0.6 60.28.194.149
+
+after `bash copy-vm.sh padbox`
+
+	sudo virsh edit padbox
+
+添加一个新的interface, 设置最大内存为2G, 启动时初始分配512M (按需自动增大), 然后退出. 见 http://libvirt.org/formatdomain.html#elementsMemoryAllocation
+
+    <memory>2097152</memory>
+    <currentMemory>524288</currentMemory>
+	...
+
+    <interface type='bridge'>
+      <source bridge='br1'/>
+      <model type='virtio'/>
+    </interface>
+
+Before `sudo reboot now`
+
+添加如下内容到`/etc/network/interfaces`
+
+	auto eth1
+	iface eth1 inet static
+			address 60.28.194.149
+			netmask 255.255.255.240
+			gateway 60.28.194.145
 	
 # build chefserver
 
