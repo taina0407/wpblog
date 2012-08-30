@@ -1,16 +1,34 @@
-本文介绍使用iptables搭建网关。
+"=========== Meta ============
+"StrID : 173
+"Title : ubuntu服务器下使用iptables搭建双局域网NAT网关
+"Slug  : setup-dual-lan-nat-gateway-in-ubuntu-with-iptables
+"Cats  : Uncategorized
+"Tags  : gateway, iptables
+"=============================
+"EditType   : post
+"EditFormat : Markdown
+"BlogAddr   : http://blog.pkufranky.com/
+"========== Content ==========
+本文介绍在ubuntu下使用iptables搭建NAT双局域网网关。
 
-# 环境
+# 目标环境
 
-外网 - 211.103.252.242/28
-内网1 - 10.6.0.1/16
-内网2 - 10.9.0.1/16
+- 外网 - 211.103.252.242/28
+- 内网1 (6楼) - 10.6.0.1/16
+- 内网2 (9楼) - 10.9.0.1/16
 
-# 配置
+所有局域网机器通过dhcp自动分配ip。两个局域网的机器间可以互相访问。
 
-OS - ubuntu 10.04 server 32bit
-cpu - Pentium(R) Dual-Core E5400  @ 2.70GHz
-内存 - 2GB
+# 网关服务器配置
+
+* OS - ubuntu 10.04 server 32bit
+* cpu - Pentium(R) Dual-Core E5400  @ 2.70GHz
+* 内存 - 2GB
+* 3个百兆网络接口 - 1个主板内置接口和2个pci网卡
+
+<!--more--> 
+
+# 配置网络
 
 3个网络接口, eth0接电信通10M光纤, eth1和eth2分别接6楼和9楼两个局域网。
 
@@ -55,27 +73,54 @@ cpu - Pentium(R) Dual-Core E5400  @ 2.70GHz
 	# dns
 	dhcp-option=6,10.6.0.1
 
-	# for pxe boot
-	enable-tftp
-	tftp-root=/tftpboot
-	dhcp-boot=pxelinux.0
+`/etc/dhcp-hosts`可为mac指定固定ip, 文件示例
+
+	6C:F0:49:B1:08:D1,bear,10.6.0.11
+	E0:CB:4E:CD:A4:4C,dog,10.6.0.12
+
+dnsmasq在做dns解析时, 会先从`/etc/hosts`中读取域名和ip的映射, 如果没找到，才会将请求forward到`/etc/resolv.conf`中的dns服务器。因此可修改网关的`/etc/hosts`来重载在局域网内对某域名的解析。dnsmasq也会将通过其dhcp服务获取ip的机器的hostname自动解析成ip, 因此在局域网中, 可直接通过机器的hostname访问到对应机器。
+
+本网关的`/etc/resolv.conf`如下
+
+	nameserver 10.6.0.1
+	nameserver 203.196.0.6
+	nameserver 8.8.8.8
+	nameserver 202.106.196.115
+	domain eee168.com
+	search eee168.com
 
 修改了配置或/etc/hosts, 可通过下面命令重新载入配置
 
+	:::bash
 	sudo killall -s HUP dnsmasq
 
-# 配置防火墙
+或
+
+	:::bash
+	sudo service dnsmasq reload
+
+
+# 配置NAT和防火墙
 
 允许转发, 添加文件 `/etc/sysctl.d/60-ip-forward.conf`
 
 	net.ipv4.ip_forward=1
 
+如果没有这个配置，可能局域网的机器都无法上外网。
+
 使配置生效
 
+	:::bash
 	sudo service procps restart
 	sudo sysctl net.ipv4.ip_forward
 
-配置`firewall.conf`, 通过执行`sudo iptables-restore < firewall.conf`使配置生效
+然后配置`firewall.conf`, 以
+
+- 限制单ip的链接数和上传下载速度。
+- 将网关80端口导向内网机器10.6.0.11
+- 配置NAT: SNAT地址转换以使内网机器能访问外网
+
+通过执行`sudo iptables-restore < firewall.conf`使配置生效
 
 	*filter
 
@@ -107,27 +152,3 @@ cpu - Pentium(R) Dual-Core E5400  @ 2.70GHz
 	-A POSTROUTING -s 10.0.0.0/8 -o eth0 -j SNAT --to-source 211.103.252.242
 	COMMIT
 
-# 配置路由
-
-	ip route add 74.125.0.0/16 via 10.6.0.2 # gmail
-	ip route add 10.92.0.0/16 via 10.9.0.92
-
-
-connect: No buffer space available
-
-	it may be due to wrong routing table on your system.
-	connection may be looped because of this.
-
-	check with # route -n
-
-ipv4: Neighbour table overflow
-
-The neighbour table is generally known as ARP table
-
-	net.ipv4.neigh.default.gc_thresh1 = 4096
-	net.ipv4.neigh.default.gc_thresh2 = 8192
-	net.ipv4.neigh.default.gc_thresh3 = 8192
-	net.ipv4.neigh.default.base_reachable_time = 86400
-	net.ipv4.neigh.default.gc_stale_time = 86400
-
-http://www.serveradminblog.com/2011/02/neighbour-table-overflow-sysctl-conf-tunning/

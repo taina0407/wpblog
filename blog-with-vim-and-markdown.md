@@ -1,13 +1,13 @@
 "=========== Meta ============
 "StrID : 102
 "Title : 使用vim和markdown撰写blog并发布到wordpress
-"Slug  : 
+"Slug  : %e4%bd%bf%e7%94%a8vim%e5%92%8cmarkdown%e6%92%b0%e5%86%99blog%e5%b9%b6%e5%8f%91%e5%b8%83%e5%88%b0wordpress
 "Cats  : Uncategorized
-"Tags  : markdown,vim,wordpress
+"Tags  : markdown, vim, wordpress
 "=============================
 "EditType   : post
 "EditFormat : Markdown
-"TextAttach : wpid154-vimpress_4ed265d1_mkd.txt
+"BlogAddr   : http://blog.pkufranky.com/
 "========== Content ==========
 $TOC$
 
@@ -19,20 +19,20 @@ $TOC$
 参考[前文][vim-conf-git]的方法, 安装[VimRepress][pkufranky-VimRepress]和[vim-markdown][]。前者用来与wordpress进行交互，后者用来对markdown文档进行语法高亮。
 
 	:::bash
-	bash github-plugin-install.sh vim-scripts/VimRepress
+	bash github-plugin-install.sh pkufranky/VimRepress
 	bash github-plugin-install.sh hallison/vim-markdown
 
 注: 为了支持code的语法高亮, 我对VimRepress做了修改，因此这里用的是我的VimRepress仓储
 
-`VimRepress`依赖[python-markdown][], 可通过下面两种方式之一进行安装
+`VimRepress`依赖[python-markdown][], 语法高亮依赖[pygments][]。可通过下面两种方式之一进行安装
 
 	:::bash
-	sudo aptitude install python-markdown
+	sudo aptitude install python-pygments python-markdown
 
 或
 
 	:::bash
-	sudo pip install markdown
+	sudo pip install Pygments markdown
 
 然后在.vim/vimrc中添加类似如下配置
 	
@@ -47,6 +47,8 @@ $TOC$
 	map <leader>P :BlogPreview<CR>
 
 `password`是可选的, 如果不填, 在第一次与wordpress交互时会提示你输入密码。`VimRepress`通过`XML-RPC`与wordpress进行交互，因此，需要确保`Settings->Writing->XML-RPC`选项在wordpress中是选中的。
+
+<!--more-->
 
 # 添加新的post
 
@@ -234,7 +236,9 @@ map <leader>p :Hammer<CR>
 [pygments-native]: http://pygments.org/demo/23678/?style=native
 [python-markdown]: http://www.freewisdom.org/projects/python-markdown
 [python-markdown-exts]: http://www.freewisdom.org/projects/python-markdown/Available_Extensions
+[pygments]: http://pygments.org/
 [CodeHilite]: http://www.freewisdom.org/projects/python-markdown/CodeHilite
 [fenced-code]: http://www.freewisdom.org/projects/python-markdown/Fenced_Code_Blocks
 [python webbrowser]: http://docs.python.org/library/webbrowser.html
 [os.pathsep]: http://docs.python.org/library/webbrowser.html
+

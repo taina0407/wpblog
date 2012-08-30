@@ -7,7 +7,7 @@
 "=============================
 "EditType   : post
 "EditFormat : Markdown
-"TextAttach : vimpress_4ee4d55a_mkd.txt
+"BlogAddr   : http://blog.pkufranky.com/
 "========== Content ==========
 $TOC$
 

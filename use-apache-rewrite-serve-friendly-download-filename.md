@@ -7,7 +7,7 @@
 "=============================
 "EditType   : post
 "EditFormat : Markdown
-"TextAttach : wpid122-wpid-wpid-vimpress_4ee35da3_mkd.txt
+"BlogAddr   : http://blog.pkufranky.com/
 "========== Content ==========
 
 目前服务器以如下形式存储apk文件

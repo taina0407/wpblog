@@ -7,7 +7,7 @@
 "=============================
 "EditType   : post
 "EditFormat : Markdown
-"TextAttach : wpid144-vimpress_4ee47b4d_mkd.txt
+"BlogAddr   : http://blog.pkufranky.com/
 "========== Content ==========
 工作中需要改变图片大小并加上logo, 且需要保持原始图片的透明性. php的官方文档给出了例子([resize][1], [add logo][2]). 下面是我的实现，将图片resize为300x300, 然后在左下角加上logo (png格式的文件), 最后保存为png格式的图片. 
 
