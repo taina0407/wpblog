@@ -138,4 +138,29 @@ InnoDB若使用`varchar(256)`作为key, 则会出现如下错误
 
 修改方法: `256 * 3 = 768 > 767`, 改为 `varchar(255)`即可.
 
+# mysql utf8只支持最长3字节的utf8字符，对于non-bmp字符(需要4字节), 存储时会报错
 
+	_mysql_exceptions.Warning: Incorrect string value: '\xF0\x9F\x98\xB1\xE5\x81...' for column 'extra' at row 1
+
+	http://www.fileformat.info/info/unicode/char/1f631/index.htm
+
+	>>> u'\U0001f631'.encode('utf8')
+	'\xf0\x9f\x98\xb1'
+
+
+# text datatype
+
+
+		  Type | Maximum length
+	-----------+-------------------------------------
+	  TINYTEXT |           255 (2 8−1) bytes
+		  TEXT |        65,535 (216−1) bytes = 64 KiB
+	MEDIUMTEXT |    16,777,215 (224−1) bytes = 16 MiB
+	  LONGTEXT | 4,294,967,295 (232−1) bytes =  4 GiB
+
+# 查看表容量
+
+	SELECT CONCAT(table_schema,'.',table_name) AS 'Table Name', CONCAT(ROUND(table_rows/1000000,2),'M') AS 'Number of Rows',
+		CONCAT(ROUND(data_length/(1024*1024*1024),2),'G') AS 'Data Size', CONCAT(ROUND(index_length/(1024*1024*1024),2),'G') AS 'Index Size',
+		CONCAT(ROUND((data_length+index_length)/(1024*1024*1024),2),'G') AS'Total'
+	FROM information_schema.TABLES WHERE table_name LIKE 'article_%' order by data_length+index_length desc;

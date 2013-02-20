@@ -23,3 +23,12 @@ showoff依赖gli, 但目前(0.7.0)只与gli 1.x系列兼容，装showoff会直�
 	EOF
 	chmod a+x wkhtmltopdf
 	
+使用
+
+	$ cd (showoff-repo)
+	$ showoff serve
+
+mac上生成pdf
+
+cd /Users/franky/wkhtmltopdf.app/Contents/MacOS
+./wkhtmltopdf http://dev.btd.com:9090/onepage ~/btd/auto-page-turn.pdf

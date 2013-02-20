@@ -12,6 +12,8 @@ munin
 
 [Quick overview of Graphite Dashboard software](http://www.jilles.net/perma/2012/11/01/quick-overview-of-graphite-dashboard-software/)
 
+[Introducing Heka](http://blog.mozilla.org/services/2013/04/30/introducing-heka/)
+
 https://github.com/ClockworkNet/graphite-dashgen
 
 http://graphite.wikidot.com/cli-reference
@@ -50,7 +52,7 @@ Install graphite
 Feed data
 
 	PORT=2003
-	SERVER=dev.bytedance.com
+	SERVER=dev.btd.com
 	echo "local.random.diceroll 4 `date +%s`" | nc ${SERVER} ${PORT};
 
 Test webapp
@@ -61,7 +63,7 @@ Configure webapp for product use
 
 	sudo pip install gunicorn
 
-	http://dev.bytedance.com:8081/render?target=carbon.agents.*.*&width=400&height=400
+	http://dev.btd.com:8081/render?target=carbon.agents.*.*&width=400&height=400
 
 
 http://www.kinvey.com/blog/89/how-to-set-up-metric-collection-using-graphite-and-statsd-on-ubuntu-1204-lts

@@ -109,3 +109,19 @@ To restart netwokring from remote probably the best and securest approach will b
 
 /var/log/messages has been deleted from Natty.
 You can find the same info in /var/log/syslog. Note that everything logged to messages was also logged to syslog.
+
+# load为什么高
+
+iostat -dx 2 # 磁盘
+iotop -d 5 # io
+pidstat -d 5 # io
+mpstat -P ALL 1 # 多核cpu使用情况
+top -c # load
+
+
+> [Errno 110] Connection timed out: During the attempt to establish the TCP connection, no response came from the other side within a given time limit. In the context of urllib this may also mean that the HTTP response did not arrive in time. This is sometimes also caused by firewalls, sometimes by network congestion or heavy load on the remote (or even local) site.
+linux 操作系统的默认值为15s/20s (不确认)
+
+http://www.sekuda.com/overriding_the_default_linux_kernel_20_second_tcp_socket_connect_timeout
+connect timeout, read timeout, and write timeout.
+tcp_syn_retries
