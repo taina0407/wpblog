@@ -1,6 +1,6 @@
 "=========== Meta ============
 "StrID : 65
-"Title : atlassian系列产品最简单的破解方法
+"Title : The most simple way to crack atlassian
 "Slug  : atlassian-crack
 "Cats  : Uncategorized
 "Tags  : 
@@ -9,15 +9,15 @@
 "EditFormat : Markdown
 "BlogAddr   : http://blog.pkufranky.com/
 "========== Content ==========
-# 反编译`atlassian-extras-<version>.jar`
+# Decompiler `atlassian-extras-<version>.jar`
 
-| 产品       | ATLASSIAN-EXTRAS-`<VERSION>`.JAR所在目录 |
-|:-----------|:---------------------------------------|
-| confluence | `<INSTALL_DIR>`/confluence/WEB-INF/lib |
+| Product    | Directory ATLASSIAN-EXTRAS-`<VERSION>`.JAR |
+|:-----------|:-------------------------------------------|
+| confluence | `<INSTALL_DIR>`/confluence/WEB-INF/lib     |
 | jira	     | `<INSTALL_DIR>`/atlassian-jira/WEB-INF/lib |
-| crowd	     | `<INSTALL_DIR>`/crowd-webapp/WEB-INF/lib |
+| crowd	     | `<INSTALL_DIR>`/crowd-webapp/WEB-INF/lib   |
 
-也可在对应产品安装目录用如下命令查找
+Also in the corresponding product installation directory with the following order to find
 
 	find . -name 'atlassian-extras*'
 
