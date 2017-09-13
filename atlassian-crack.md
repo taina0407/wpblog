@@ -80,3 +80,32 @@ crowd
 	CLASSPATH=atlassian-extras-1.10.jar javac com/atlassian/license/applications/crowd/CrowdLicenseTypeStore.java
 	jar -uf atlassian-extras-1.10.jar com/atlassian/license/applications/crowd/CrowdLicenseTypeStore.class
 	cp -fv atlassian-extras-1.10.jar <INSTALL_DIR>/crowd-webapp/WEB-INF/lib/
+
+
+
+
+# Patching com/atlassian/extras/decoder/v2/Version2LicenseDecoder.java
+
+    private byte[] checkAndGetLicenseText(String string) {
+        DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64((byte[])string.getBytes())));
+        int n = dataInputStream.readInt();
+        byte[] arrby = new byte[n];
+        dataInputStream.read(arrby);
+        return arrby;
+    }
+
+
+
+    static {
+        try {
+            String pubKeyEncoded = "MIHwMIGoBgcqhkjOOAQBMIGcAkEA/KaCzo4Syrom78z3EQ5SbbB4sF7ey80etKII864WF64B81uRpH5t9jQTxeEu0ImbzRMqzVDZkVG9xD7nN1kuFwIVAJYu3cw2nLqOuyYO5rahJtk0bjjFAkBnhHGyepz0TukaScUUfbGpqvJE8FpDTWSGkx0tFCcbnjUDC3H9c9oXkGmzLik1Yw4cIGI1TQ2iCmxBblC+eUykA0MAAkBrKJN92XEUFWggagAhhhNtFVc/Nh/JTnB3xsQ5azfHq7UcFtPEq0ohc3vGZ7OGEQS7Ym08DB6B1DtD93CwaNdX";
+            KeyFactory keyFactory = KeyFactory.getInstance("DSA");
+            PUBLIC_KEY = keyFactory.generatePublic(new X509EncodedKeySpec(Base64.decodeBase64((byte[])"MIHwMIGoBgcqhkjOOAQBMIGcAkEA/KaCzo4Syrom78z3EQ5SbbB4sF7ey80etKII864WF64B81uRpH5t9jQTxeEu0ImbzRMqzVDZkVG9xD7nN1kuFwIVAJYu3cw2nLqOuyYO5rahJtk0bjjFAkBnhHGyepz0TukaScUUfbGpqvJE8FpDTWSGkx0tFCcbnjUDC3H9c9oXkGmzLik1Yw4cIGI1TQ2iCmxBblC+eUykA0MAAkBrKJN92XEUFWggagAhhhNtFVc/Nh/JTnB3xsQ5azfHq7UcFtPEq0ohc3vGZ7OGEQS7Ym08DB6B1DtD93CwaNdX".getBytes())));
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new Error(e);
+        }
+        catch (InvalidKeySpecException e) {
+            throw new Error(e);
+        }
+    }
