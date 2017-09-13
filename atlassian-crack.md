@@ -9,7 +9,7 @@
 "EditFormat : Markdown
 "BlogAddr   : http://blog.pkufranky.com/
 "========== Content ==========
-# Decompiler `atlassian-extras-<version>.jar`
+# Decompile `atlassian-extras-<version>.jar`
 
 | Product    | Directory ATLASSIAN-EXTRAS-`<VERSION>`.JAR |
 |:-----------|:-------------------------------------------|
@@ -23,14 +23,14 @@ Also in the corresponding product installation directory with the following orde
 
 下面均假设该文件version为1.15，即`atlassian-extras-1.15.jar`，使用jad反编译
 
-	# 解压
+	# Decompress
 	jar xf atlassian-extras-1.15.jar
-	# 反编译所有x.class为x.java
+	# Decompile x.class from x.java
 	jad -o -r -sjava 'com/**/*.class'
 
-# 修改源代码
+# Sourcecode editing
 
-给出个产品的patch
+Patch a product
 
 confluence (atlassian-extras-1.15.jar)
 
@@ -67,8 +67,8 @@ crowd (atlassian-extras-1.10.jar)
 		 public static LicenseType CROWD_DEVELOPER = new DefaultLicenseType(641, "Crowd: Developer", false, true);
 		 public static LicenseType CROWD_DEMONSTRATION = new DefaultLicenseType(649, "Crowd: Demonstration", false, true);
 
-# 编译，并覆盖jar包中的原文件，拷贝回原始目录
-
+# Compile and overwrite the original class in jar file, and copy the jar back to installation directory
+ 
 confluence
 
 	CLASSPATH=atlassian-extras-1.15.jar javac com/atlassian/license/applications/confluence/ConfluenceLicenseTypeStore.java
