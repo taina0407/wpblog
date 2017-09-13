@@ -83,8 +83,8 @@ crowd
 
 
 
-
-# Patching com/atlassian/extras/decoder/v2/Version2LicenseDecoder.java
+# Method 2: Patching by LicenseDecoder
+# Modify com/atlassian/extras/decoder/v2/Version2LicenseDecoder.java
 
     private byte[] checkAndGetLicenseText(String string) {
         DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(Base64.decodeBase64((byte[])string.getBytes())));
@@ -109,3 +109,9 @@ crowd
             throw new Error(e);
         }
     }
+
+# Patching
+
+	javac -cp "${JIRA_INSTALL}/atlassian-jira/WEB-INF/lib/*" com/atlassian/extras/decoder/v2/Version2LicenseDecoder.java
+	jar -uf atlassian-extras-3.2.jar com/atlassian/extras/decoder/v2/Version2LicenseDecoder.class
+	cp -fv atlassian-extras-3.2.jar $JIRA_INSTALL/atlassian-jira/WEB-INF/lib/atlassian-extras-3.2.jar
